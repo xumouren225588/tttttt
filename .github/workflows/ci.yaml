@@ -8,9 +8,6 @@ on:
   schedule:
     - cron: '30 2 */10 * *'
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   build:
@@ -23,7 +20,7 @@ jobs:
       options: --privileged
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: Set environment variables
         run: |
@@ -51,7 +48,7 @@ jobs:
           lb build
 
       - name: Uploading ISO 
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: debian-amd64.iso
           path: ${{ env.LB }}/live-image-amd64.hybrid.iso
@@ -63,7 +60,7 @@ jobs:
           mount -o loop ${LB}/live-image-amd64.hybrid.iso ${LB}/tmp
 
       - name: Uploading vmlinuz
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: vmlinuz
           path: |
@@ -71,7 +68,7 @@ jobs:
           if-no-files-found: error
 
       - name: Uploading initrd.img
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: initrd.img
           path: |
@@ -79,7 +76,7 @@ jobs:
           if-no-files-found: error
 
       - name: Uploading filesystem.squashfs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: filesystem.squashfs
           path: |
